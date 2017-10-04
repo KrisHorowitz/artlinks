@@ -12,23 +12,88 @@
   <!-- Bootstrap -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/style.css">
+
+      <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+  <!-- Load the Paper.js library -->
+  <script type="text/javascript" src="js/paper-full.js"></script>
+  <!-- <script type="text/javascript" src="js/paper.js"></script> -->
+  <script src="js/script.js"></script>
+  <script type="text/paperscript" canvas="canvas">        // Adapted from the following Processing example:
+        // http://processing.org/learning/topics/follow3.html
+
+        // The amount of points in the path:
+        var points = 25;
+
+        // The distance between the points:
+        var length = 10;
+
+        var path = new Path({
+            strokeColor: '#ede7c0',
+            strokeWidth: 20,
+            strokeCap: 'round'
+        });
+
+        var start = view.center / [10, 1];
+        for (var i = 0; i < points; i++)
+            path.add(start + new Point(i * length, 0));
+
+        function onMouseMove(event) {
+            path.firstSegment.point = event.point;
+            for (var i = 0; i < points - 1; i++) {
+                var segment = path.segments[i];
+                var nextSegment = segment.next;
+                var vector = segment.point - nextSegment.point;
+                vector.length = length;
+                nextSegment.point = segment.point - vector;
+            }
+            path.smooth({ type: 'continuous' });
+            changeAudioBasedOnOverlap();
+        }
+
+        function changeAudioBasedOnOverlap(){
+          var audioManipulator = 0;
+          for (var i = 0; i < points - 1; i++) {
+                var segment = path.segments[i];
+                for (var k = 0; k < points - 1; k++) {
+                  var segmentToBeCompared = path.segments[k];
+                    if(segment != segmentToBeCompared){
+                      if(Math.round(segment.point.x) === Math.round(segmentToBeCompared.point.x)){
+                        audioManipulator+=1;
+                      }
+                    }
+                }   
+            }
+            var audio = document.getElementById("art-links-vivi");
+            var audioStrength = audioManipulator/points;
+                if (audioStrength > 1) {
+                  audioStrength = 1;
+                }
+          $(audio).prop('volume', audioStrength);
+          // console.log(path.segments[i].point.x);
+          // console.log(audioManipulator);
+        }
+
+        function onMouseDown(event) {
+            path.fullySelected = true;
+            path.strokeColor = '#000';
+        }
+
+        function onMouseUp(event) {
+            path.fullySelected = false;
+            path.strokeColor = '#ede7c0';
+        }
+  </script>
 </head>
 
 <body>
-	<div class="container-fluid">
-		<img class="img-fluid" src="https://www.animalblueprintcompany.com/wp-content/uploads/2016/04/goldenretrievermain.jpg">
-		<audio id="art-links-vivi">
+
+		<audio id="art-links-vivi" autoplay="autoplay">
   			<source src="art-links-vivi.m4a">
 		</audio>
-    <div class="circle" id="upper-left" onmouseover="playAudio()" onmouseout="pauseAudio()"></div>
-    <div class="circle" id="upper-right"></div>
+    <canvas id="canvas" resize></canvas>
 <!-- 		<button type="button" onclick="togglePlay()">Jams</button> -->
-	</div>
-
-    <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
-  <script src="js/script.js"></script>
 
 </body>
 
