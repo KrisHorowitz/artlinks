@@ -1,4 +1,4 @@
-var audio = document.getElementById("art-links-vivi");
+
 
 // var isPlaying = false;
 
@@ -16,13 +16,15 @@ var audio = document.getElementById("art-links-vivi");
 //   isPlaying = false;
 // };
 
-function playAudio() {
-  audio.play();
-}
+// function playAudio() {
+//   audio.play();
+// }
 
-function pauseAudio() {
-  audio.pause();
-}
+// function pauseAudio() {
+//   audio.pause();
+// }
+
+
 
 // $(document).ready(function(){
 //   $(audio)[0].volume = 0;
@@ -49,3 +51,42 @@ function pauseAudio() {
 //     }, 200);
 
 // }
+
+
+
+
+
+var $win = $(window),
+    w = 0,h = 0,
+    rgb = [],
+    getWidth = function() {
+        w = $win.width();
+        h = $win.height();
+    };
+
+$win.resize(getWidth).mousemove(function(e) {
+	var audio = document.getElementById("art-links-vivi");
+	var audioStrength = ((e.pageX/w) + (e.pageY/h) * 100)/100;
+	
+
+	$(document).ready(function(){
+		
+
+
+		// $(audio).prop('volume', audioStrength);
+	});
+}).resize();
+
+
+
+$win.resize(getWidth).mousemove(function(e) {
+    
+    rgb = [
+        Math.round(e.pageX/w * 175),
+        Math.round(e.pageY/h * 175),
+        150
+    ];
+    
+    $(document.body).css('background','rgb('+rgb.join(',')+')');
+    
+}).resize();
