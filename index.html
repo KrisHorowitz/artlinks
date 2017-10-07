@@ -23,15 +23,25 @@
   <script type="text/paperscript" canvas="canvas">        // Adapted from the following Processing example:
         // http://processing.org/learning/topics/follow3.html
 
+        // var canvas = document.getElementById("background-canvas"),
+        // ctx = canvas.getContext("2d");
+
+        // var background = new Image();
+        // background.src = "WhiteLinesFINAL.png";
+
+        // background.onload = function() {
+        //   ctx.drawImage(background,0,0);
+        // }
+
         // The amount of points in the path:
-        var points = 25;
+        var points = 30;
 
         // The distance between the points:
-        var length = 25;
+        var length = 10;
 
         var path = new Path({
-            strokeColor: '#ede7c0',
-            strokeWidth: 20,
+            strokeColor: '#eee',
+            strokeWidth: 2,
             strokeCap: 'round'
         });
 
@@ -82,7 +92,7 @@
           Math.max(audioStrength, 0.2);
           if (audioStrength > 1) {
             audioStrength = 1;
-          } 
+          }
           // else if (audioStrength = 0) {
           //   audioStrength = 0.01;
           // }
@@ -112,7 +122,9 @@
 		<audio id="art-links-vivi" autoplay="autoplay" loop>
   			<source src="art-links-vivi.m4a">
 		</audio>
-    <canvas id="canvas" resize></canvas>
+    <canvas id="canvas" resize>
+<!--       <canvas id="background-canvas" resize></canvas> -->
+    </canvas>
 <!-- 		<button type="button" onclick="togglePlay()">Jams</button> -->
 
 </body>

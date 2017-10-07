@@ -8,6 +8,7 @@ body {
     margin: 0;
     overflow: hidden;
     height: 100%;
+/*    background-image: url("../WhiteLinesFINAL.png");*/
 }
 
 /* Scale canvas with resize attribute to full size */
@@ -49,4 +50,9 @@ canvas[resize] {
 
 #canvas {
   height: 100%;
+  background-image: url("../WhiteLinesFINAL.png");
 }
+/*
+#background-canvas {
+  height: 100%;
+}*/
