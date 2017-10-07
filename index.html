@@ -45,6 +45,9 @@
             strokeCap: 'round'
         });
 
+        var audio = document.getElementById("art-links-vivi");
+        var jqAudio = $(audio);
+
         var start = view.center / [10, 1];
         for (var i = 0; i < points; i++)
             path.add(start + new Point(i * length, 0));
@@ -58,7 +61,7 @@
                 vector.length = length;
                 nextSegment.point = segment.point - vector;
             }
-            path.smooth({ type: 'continuous' });
+            path.smooth({ type: 'geometric' });
             changeAudioBasedOnOverlap();
         }
 
@@ -87,7 +90,6 @@
           var pMin = new Point(minX, minY);
           var pMax = new Point(maxX, maxY);
           var dist = pMin.getDistance(pMax);
-          var audio = document.getElementById("art-links-vivi");
           var audioStrength = 1 - (dist / maxDistance);
           Math.max(audioStrength, 0.2);
           if (audioStrength > 1) {
@@ -96,7 +98,7 @@
           // else if (audioStrength = 0) {
           //   audioStrength = 0.01;
           // }
-          $(audio).prop('volume', audioStrength);
+          jqAudio.prop('volume', audioStrength);
           // console.log(path.segments[i].point.x);
           // console.log(audioManipulator);
         }
@@ -104,14 +106,12 @@
         function onMouseDown(event) {
             path.fullySelected = true;
             path.strokeColor = '#12183F';
-            var audio = document.getElementById("art-links-vivi");
             audio.playbackRate=0.5;
         }
 
         function onMouseUp(event) {
             path.fullySelected = false;
             path.strokeColor = '#ede7c0';
-            var audio = document.getElementById("art-links-vivi");
             audio.playbackRate=1;
         }
   </script>

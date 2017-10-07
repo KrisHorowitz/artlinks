@@ -52,10 +52,6 @@
 
 // }
 
-
-
-
-
 var $win = $(window),
     w = 0,h = 0,
     rgb = [],
@@ -64,29 +60,23 @@ var $win = $(window),
         h = $win.height();
     };
 
-$win.resize(getWidth).mousemove(function(e) {
-	var audio = document.getElementById("art-links-vivi");
-	var audioStrength = ((e.pageX/w) + (e.pageY/h) * 100)/100;
-	
-
-	$(document).ready(function(){
-		
-
-
-		// $(audio).prop('volume', audioStrength);
-	});
-}).resize();
-
-
+var canvas, canvasCtx;
+$(function() {
+    canvas = document.getElementById("canvas");
+    canvasCtx = canvas.getContext("2d");
+});
 
 $win.resize(getWidth).mousemove(function(e) {
-    
+    if (canvas === undefined || canvasCtx === undefined) return;
+    var CONST_BLUE = 150;
+    var red = Math.round(e.pageX/w * 175).toString(16);
+    var green = Math.round(e.pageY/h * 175).toString(16);
+    var blue = CONST_BLUE.toString(16);
     rgb = [
-        Math.round(e.pageX/w * 175),
-        Math.round(e.pageY/h * 175),
-        150
+        red,
+        green,
+        blue
     ];
-    
-    $(document.body).css('background','rgb('+rgb.join(',')+')');
-    
+    var color = "#" + rgb.join('');
+    $(document.body).css('background', color);
 }).resize();
