@@ -22,23 +22,10 @@
   <script src="js/script.js"></script>
   <script type="text/paperscript" canvas="canvas">        // Adapted from the following Processing example:
         // http://processing.org/learning/topics/follow3.html
-
-        // var canvas = document.getElementById("background-canvas"),
-        // ctx = canvas.getContext("2d");
-
-        // var background = new Image();
-        // background.src = "WhiteLinesFINAL.png";
-
-        // background.onload = function() {
-        //   ctx.drawImage(background,0,0);
-        // }
-
-        // The amount of points in the path:
-        var points = 30;
-
-        // The distance between the points:
-        var length = 10;
+        
         var size = paper.project.view.size;
+
+        // Background color
         var bg = new Path({
           fillColor: "#666688"
         });
@@ -47,7 +34,15 @@
         bg.add(new Point(size.width, size.height));
         bg.add(new Point(0, size.height));
         bg.add(new Point(0, 0));
+
+        // Background image
         var img = new Raster("WhiteLinesFINAL.png", new Point(size.width / 2, size.height / 2));
+
+        // The amount of points in the path:
+        var points = 30;
+
+        // The distance between the points:
+        var length = 10;
         var path = new Path({
             strokeColor: '#eee',
             strokeWidth: 2,
@@ -62,19 +57,10 @@
             path.add(start + new Point(i * length, 0));
 
         function onMouseMove(mouseEvent) {
-            var rgb;
-            var CONST_BLUE = 150;
             var event = mouseEvent.event;
-            var red = Math.round(event.screenX/w * 175).toString(16);
-            var green = Math.round(event.screenY/h * 175).toString(16);
-            var blue = CONST_BLUE.toString(16);
-            rgb = [
-                red,
-                green,
-                blue
-            ];
             var color = "#" + rgb.join('');
             bg.fillColor = color;
+            console.log(color);
             path.firstSegment.point = mouseEvent.point;
             for (var i = 0; i < points - 1; i++) {
                 var segment = path.segments[i];
