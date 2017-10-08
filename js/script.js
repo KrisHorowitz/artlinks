@@ -8,6 +8,8 @@ var $win = $(window),
         h = $win.height();
     };
 
+// Pad int => hex string conversion w/ zeroes
+// if the int is < 2 digits.
 var zeroPad = function(hexString) {
     switch (hexString.length) {
         case 0:
@@ -20,9 +22,9 @@ var zeroPad = function(hexString) {
     return hexString;
 }
 
+// Update RGB values for use by Paper.
 $win.resize(getWidth).mousemove(function(e) {
     var CONST_BLUE = 150;
-    console.log(Math.round(e.pageX/w * 175));
     red = Math.round(e.pageX/w * 175).toString(16);
     green = Math.round(e.pageY/h * 175).toString(16);
     blue = CONST_BLUE.toString(16);

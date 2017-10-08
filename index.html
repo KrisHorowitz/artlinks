@@ -23,20 +23,34 @@
   <script type="text/paperscript" canvas="canvas">        // Adapted from the following Processing example:
         // http://processing.org/learning/topics/follow3.html
         
-        var size = paper.project.view.size;
+        var IMG_PATH = "WhiteLinesFINAL.png";
+        var view = paper.project.view;
+        var bg, img;
+        var setBg = function() {
+          var size = view.size;
 
-        // Background color
-        var bg = new Path({
-          fillColor: "#666688"
-        });
-        bg.add(new Point(0, 0));
-        bg.add(new Point(size.width, 0));
-        bg.add(new Point(size.width, size.height));
-        bg.add(new Point(0, size.height));
-        bg.add(new Point(0, 0));
+          // Background color
+          bg = new Path({
+            fillColor: "#666688"
+          });
+          bg.add(new Point(0, 0));
+          bg.add(new Point(size.width, 0));
+          bg.add(new Point(size.width, size.height));
+          bg.add(new Point(0, size.height));
+          bg.add(new Point(0, 0));
 
-        // Background image
-        var img = new Raster("WhiteLinesFINAL.png", new Point(size.width / 2, size.height / 2));
+          // Background image
+          img = new Raster(IMG_PATH, view.center);
+        }
+        setBg();
+        view.onResize = function(event) {
+          var size = view.size;
+          bg.segments[1].point.x = size.width;
+          bg.segments[2].point.x = size.width;
+          bg.segments[2].point.y = size.height;
+          bg.segments[3].point.y = size.height;
+          img.position = view.center;
+        }
 
         // The amount of points in the path:
         var points = 30;
@@ -60,7 +74,6 @@
             var event = mouseEvent.event;
             var color = "#" + rgb.join('');
             bg.fillColor = color;
-            console.log(color);
             path.firstSegment.point = mouseEvent.point;
             for (var i = 0; i < points - 1; i++) {
                 var segment = path.segments[i];
