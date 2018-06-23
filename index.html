@@ -123,6 +123,12 @@
             path.fullySelected = true;
             path.strokeColor = '#12183F';
             audio.playbackRate=0.5;
+            if (audio.paused) {
+              try {
+                audio.play();
+                audio.muted = false;
+              } catch (error) {}
+            }
         }
 
         function onMouseUp(event) {
@@ -130,12 +136,15 @@
             path.strokeColor = '#ede7c0';
             audio.playbackRate=1;
         }
+
+        onMouseDown(null);
+        onMouseUp(null);
   </script>
 </head>
 
 <body>
 
-		<audio id="art-links-vivi" autoplay="autoplay" loop>
+		<audio id="art-links-vivi" muted loop>
   			<source src="art-links-vivi.m4a">
 		</audio>
     <canvas id="canvas" resize>
